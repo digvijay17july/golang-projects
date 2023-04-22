@@ -1,37 +1,49 @@
 package schema
 
 import (
-	"io/ioutil"
+	"github.com/digvijay17july/golang-projects/go-graphql-rest-api/repository"
 
-	repository "github.com/digvijay17july/golang-projects/go-graphql-rest-api/repository"
 	"github.com/graphql-go/graphql"
 )
 
-func RegisterSchema() ([]byte, error) {
-	schemaData, err := ioutil.ReadFile("schema.graphql")
-	return schemaData, err
+func GetUserType() *graphql.Object {
+	userType := graphql.NewObject(
+		graphql.ObjectConfig{
+			Name: "User",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.Int,
+				},
+				"name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"age": &graphql.Field{
+					Type: graphql.Int,
+				},
+			},
+		},
+	)
+	return userType
 }
 
-func GetSchema() (graphql.Schema, error) {
-	// Parse the schema definition into a GraphQL schema object
+func GetSchema(userType *graphql.Object) (graphql.Schema, error) {
 	schema, err := graphql.NewSchema(graphql.SchemaConfig{
 		Query: graphql.NewObject(graphql.ObjectConfig{
 			Name: "Query",
 			Fields: graphql.Fields{
 				"user": &graphql.Field{
-					Type:        repository.User,
+					Type:        userType,
 					Description: "Get a user by ID",
 					Args: graphql.FieldConfigArgument{
 						"id": &graphql.ArgumentConfig{
 							Type: graphql.NewNonNull(graphql.ID),
 						},
 					},
-					Resolve: repository.GetUser(),
+					Resolve: repository.GetUser,
 				},
 			},
 		}),
-		Mutation: nil,
-		Types:    []graphql.Type{userType},
 	})
+
 	return schema, err
 }
