@@ -12,11 +12,8 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "graphql",
-					"graphql": {
-						"query": "{\r\n    user(id:23){\r\n        id\r\n        name\r\n        age\r\n    }\r\n}",
-						"variables": ""
-					}
+					"mode": "raw",
+					"raw": "{\r\n    user(id:23){\r\n        id\r\n        name\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8000/graphql",
