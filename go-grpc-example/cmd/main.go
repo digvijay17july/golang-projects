@@ -7,6 +7,7 @@ import (
 
 	"github.com/digvijay17july/golang-projects/go-grpc-example/app/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 type server struct {
@@ -19,6 +20,11 @@ func (*server) GetUser(ctx context.Context, in *proto.UserRequest) (*proto.UserR
 	others["secondary"] = "233453"
 	phone := &proto.PhoneNumber{Primary: "1234567890", Others: others}
 	user := &proto.User{Name: "Digvijay", Age: 23, Address: &proto.Address{Street: "Pune", City: "Pune", State: "MAHARASHTRA", Zip: "201223"}, Phone: phone}
+	anyUser, err := anypb.New(user)
+	if err != nil {
+		log.Fatalf("Error packing Book: %v", err)
+	}
+	user.Others = anyUser
 	return &proto.UserResponse{User: user, Status: 200, Error: ""}, nil
 }
 

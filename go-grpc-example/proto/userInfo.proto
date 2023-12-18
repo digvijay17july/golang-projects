@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package proto;
-
+import "google/protobuf/any.proto";
 option go_package = "app/proto";
 
 message User {
@@ -9,6 +9,7 @@ message User {
     int32 age = 2;
     Address address = 3;
     PhoneNumber phone = 4;
+    google.protobuf.Any others = 5;
 }
 
 message Address{
