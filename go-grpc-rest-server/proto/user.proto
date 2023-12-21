@@ -1,0 +1,21 @@
+syntax ="proto3";
+
+
+package proto;
+
+option go_package = "app/proto";
+
+message User{
+    string id=1;
+    string name = 2;
+    string password = 3;
+    string email = 4;
+}
+
+message Request{
+    string id = 1;
+}
+
+service UserService{
+    rpc GetUser(Request) returns (User);
+}
