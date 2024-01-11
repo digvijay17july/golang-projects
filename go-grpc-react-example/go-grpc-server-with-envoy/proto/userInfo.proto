@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "app/proto";
+
+message User {
+    string name = 1;
+    int32 age = 2;
+    Address address = 3;
+    PhoneNumber phone = 4;
+    string updated_at = 5; 
+    string created_at =6;
+}
+
+message Address{
+    string street = 1;
+    string city = 2;
+    string state = 3;
+    string zip = 4;
+}
+
+message PhoneNumber{
+    string primary = 1;
+    map<string, string> others = 2;
+}
+
+
+message UserRequest {
+    string name = 1;
+}
+
+message UserResponse {
+    User user = 1;
+    int32 status = 2;
+    string error = 3;
+}
+service Usr {
+    rpc GetUser (UserRequest) returns (UserResponse) {}
+}

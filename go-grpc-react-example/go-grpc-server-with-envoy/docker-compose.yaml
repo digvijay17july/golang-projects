@@ -1,0 +1,21 @@
+version: '3'
+services:
+  grpc-server:
+    image: go-grpc-server-with-envoy:latest  # Replace with the actual image name and tag for your Go gRPC server
+    ports:
+      - "8080:8080"  # Map container's gRPC port to host machine
+    networks:
+      - go-grpc-server-with-envoy
+
+  gateway-envoy:
+    build:
+      context: ./envoy/config
+      dockerfile: Dockerfile
+    ports:
+      - '8083:8080'
+
+    networks:
+      - go-grpc-server-with-envoy
+
+networks:
+  go-grpc-server-with-envoy:
